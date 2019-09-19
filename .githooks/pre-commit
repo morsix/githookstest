@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Pre-commit hooks
+
+# Check branch name
+BRANCH_NAME_LENGTH=`git rev-parse --abbrev-ref HEAD | grep -E '^([a-z]+[/])*[0-9]{1,8}\-([a-z0-9]+(\-[a-z0-9]+)*)$' | wc -c`
+echo "Checking branch name";
+
+if [ ${BRANCH_NAME_LENGTH} -eq 0 ] ; then
+  echo -e "Error: Branch name is not in the correct format"
+  echo "Branch name should be like 12345-blah-blah-blah"
+  echo "edit regexp if you think something wrong"
+  echo "Skip pre-commit hooks with --no-verify (not recommended)."
+  exit 1
+fi
